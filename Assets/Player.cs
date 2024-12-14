@@ -1,31 +1,53 @@
 using System;
-using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-   [SerializeField] private float moveSpeed = 7f;
-   [SerializeField] private GameInput _gameInput;
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float rotateSpeed = 7f; 
+    [SerializeField] private float jumpHeight = 5f; 
+    [SerializeField] private GameInput _gameInput;
 
-   private bool isWalking;
+    private bool isWalking;
+    private bool isGrounded;
+    private Rigidbody rb;
 
-   private void Update()
-   {
-       Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
-       Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
-       transform.position += moveDir * moveSpeed * Time.deltaTime;
+    private void Update()
+    {
+        Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
+        Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
+        transform.position += moveDir * moveSpeed * Time.deltaTime;
 
-       isWalking = moveDir != Vector3.zero;
+        isWalking = moveDir != Vector3.zero;
+        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+        
+        if (_gameInput.IsJumpPressed() && isGrounded)
+        {
+            Jump();
+        }
+    }
 
-       float rotateSpeed = 10f;
-       transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
-   }
+    private void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+        isGrounded = false;
+    }
 
-   public bool IsWalking()
-   {
-       return isWalking;
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true; 
+        }
+    }
 
-   }
-
+    public bool IsWalking()
+    {
+        return isWalking;
+    }
 }
