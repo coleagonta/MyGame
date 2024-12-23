@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float rotateSpeed = 7f; 
+    // [SerializeField] private float rotateSpeed = 7f; 
     [SerializeField] private float jumpHeight = 5f; 
     [SerializeField] private GameInput _gameInput;
 
@@ -20,11 +20,11 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
-        Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
+        Vector3 moveDir = new Vector3(inputVector.y, 0f, -inputVector.x);
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
         isWalking = moveDir != Vector3.zero;
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+        // transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
         
         if (_gameInput.IsJumpPressed() && isGrounded)
         {
