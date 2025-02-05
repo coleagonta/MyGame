@@ -40,8 +40,8 @@ namespace EmeraldAI
             m_AudioSource.maxDistance = 20;
             m_SoundEffect = Resources.Load("Emerald Sound") as GameObject;
             m_Rigidbody = GetComponent<Rigidbody>();
-            m_Rigidbody.drag = 0.1f;
-            m_Rigidbody.angularDrag = 0.05f;
+            m_Rigidbody.linearDamping = 0.1f;
+            m_Rigidbody.angularDamping = 0.05f;
             GrenadeCollider = GetComponent<Collider>();
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
@@ -83,7 +83,7 @@ namespace EmeraldAI
             if (CurrentAbilityData.GrenadeSettings.ThrowSound) m_AudioSource.PlayOneShot(CurrentAbilityData.GrenadeSettings.ThrowSound);
             Vector3 TargetDirection = InitialTargetPosition - transform.position;
             float Distance = Vector3.Distance(InitialTargetPosition, transform.position);
-            m_Rigidbody.velocity = new Vector3(0f, 0f, 0f);
+            m_Rigidbody.linearVelocity = new Vector3(0f, 0f, 0f);
             m_Rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
             float RandomizedDepth = Random.Range(0.85f, 1f);
             float ThrowHeightOffset = Mathf.Lerp(1f, 0.5f, CurrentAbilityData.GrenadeSettings.ThrowHeight / 10f);

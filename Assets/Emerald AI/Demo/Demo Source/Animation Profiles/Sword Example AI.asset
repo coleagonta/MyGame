@@ -21,15 +21,15 @@ MonoBehaviour:
   FilePath: Assets/Emerald AI/Demo/Demo Source/Animator Controllers/Sword Example
     AI.overrideController
   AnimatorCullingMode: 0
-  WalkFoldout: 0
-  RunFoldout: 0
+  WalkFoldout: 1
+  RunFoldout: 1
   TurnFoldout: 0
   NonCombatDeathFoldout: 0
-  NonCombatAnimationsFoldout: 0
-  NonCombatIdleFoldout: 0
+  NonCombatAnimationsFoldout: 1
+  NonCombatIdleFoldout: 1
   NonCombatHitFoldout: 0
   EmotesFoldout: 0
-  Type1IdleFoldout: 0
+  Type1IdleFoldout: 1
   Type2IdleFoldout: 0
   Type1AttacksFoldout: 1
   Type2AttacksFoldout: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   Type2HitFoldout: 0
   Type1BlockFoldout: 0
   Type2BlockFoldout: 0
-  Type1CombatWalkFoldout: 0
+  Type1CombatWalkFoldout: 1
   Type1CombatRunFoldout: 0
   Type1CombatTurnFoldout: 0
   Type2CombatWalkFoldout: 0
