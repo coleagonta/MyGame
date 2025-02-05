@@ -54,7 +54,7 @@ MonoBehaviour:
   Type1DodgeFoldout: 0
   Type2DodgeFoldout: 0
   AnimationProfileFoldout: 0
-  AnimatorSettingsFoldout: 1
+  AnimatorSettingsFoldout: 0
   Type1HitConditions: -1
   Type2HitConditions: -1
   Type1HitAnimationCooldown: 0.1
@@ -182,7 +182,7 @@ MonoBehaviour:
       Mirror: 0
     IdleWarning:
       AnimationSpeed: 1
-      AnimationClip: {fileID: 0}
+      AnimationClip: {fileID: 7400000, guid: 7b5b17e2d42e0424f9c36012595dc9b6, type: 3}
       Mirror: 0
     WalkLeft:
       AnimationSpeed: 1
