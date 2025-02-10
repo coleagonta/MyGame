@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     // [SerializeField] private float rotateSpeed = 7f; 
     [SerializeField] private float jumpHeight = 5f; 
     [SerializeField] private GameInput _gameInput;
+    [SerializeField] private Animator animator;
 
     private bool isWalking;
     private bool isGrounded;
@@ -15,6 +16,11 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        
+        if (animator == null) 
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     private void Update()
@@ -22,6 +28,11 @@ public class Player : MonoBehaviour
         Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
         Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
         transform.position += moveDir * moveSpeed * Time.deltaTime;
+        
+        if (animator != null)
+        {
+            animator.SetTrigger("walk");
+        }
 
         isWalking = moveDir != Vector3.zero;
         // transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
