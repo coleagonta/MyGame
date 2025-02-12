@@ -29,9 +29,11 @@ public class Player : MonoBehaviour
         Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
         transform.position += moveDir * moveSpeed * Time.deltaTime;
         
+        isWalking = moveDir.magnitude > 0.1f; 
+
         if (animator != null)
         {
-            animator.SetTrigger("walk");
+            animator.SetBool("walk", isWalking);
         }
 
         isWalking = moveDir != Vector3.zero;
@@ -39,14 +41,26 @@ public class Player : MonoBehaviour
         
         if (_gameInput.IsJumpPressed() && isGrounded)
         {
+            
             Jump();
         }
     }
 
     private void Jump()
     {
+        if (isWalking)
+        {
+            animator.SetBool("jump",true); 
+        }
+        else
+        {
+            animator.SetBool("jump",true);
+        }
+
+       
         rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
         isGrounded = false;
+        // animator.SetTrigger("jump"); 
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -54,6 +68,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true; 
+            animator.SetBool("jump", false);
         }
     }
 
