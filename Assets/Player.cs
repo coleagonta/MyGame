@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 7f;
-    // [SerializeField] private float rotateSpeed = 7f; 
+    [SerializeField] private float rotateSpeed = 7f; // добавим скорость поворота
     [SerializeField] private float jumpHeight = 5f; 
     [SerializeField] private GameInput _gameInput;
     [SerializeField] private Animator animator;
@@ -27,8 +27,11 @@ public class Player : MonoBehaviour
     {
         Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
         Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
+
+        // Двигаем персонажа
         transform.position += moveDir * moveSpeed * Time.deltaTime;
         
+        // Проверяем, идет ли персонаж
         isWalking = moveDir.magnitude > 0.1f; 
 
         if (animator != null)
@@ -36,31 +39,23 @@ public class Player : MonoBehaviour
             animator.SetBool("walk", isWalking);
         }
 
-        isWalking = moveDir != Vector3.zero;
-        // transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
-        
+        if (isWalking)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotateSpeed);
+        }
+
         if (_gameInput.IsJumpPressed() && isGrounded)
         {
-            
             Jump();
         }
     }
 
     private void Jump()
     {
-        if (isWalking)
-        {
-            animator.SetBool("jump",true); 
-        }
-        else
-        {
-            animator.SetBool("jump",true);
-        }
-
-       
+        animator.SetBool("jump", true);
         rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
         isGrounded = false;
-        // animator.SetTrigger("jump"); 
     }
 
     private void OnCollisionEnter(Collision collision)
