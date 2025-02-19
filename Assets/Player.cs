@@ -28,19 +28,18 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
-        
         Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
-        
-        float currentSpeed = GetCurrentSpeed();
-        
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
-        
+
+        isSprinting = _gameInput.IsSprinting();
+
+        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
         transform.position += moveDir * currentSpeed * Time.deltaTime;
 
         isWalking = moveDir.magnitude > 0.1f;
 
         if (animator != null)
         {
+            animator.SetBool("Sprint", isSprinting);
             animator.SetBool("walk", isWalking);
         }
 
@@ -54,12 +53,6 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
-    }
-    
-    private float GetCurrentSpeed()
-    {
-        bool isSprinting = _gameInput.IsSprinting();
-        return isSprinting ? sprintSpeed : moveSpeed;
     }
 
     private void Jump()
