@@ -20,6 +20,11 @@ public class GameInput : MonoBehaviour
         return inputVector;
     }
     
+    public bool IsSprinting()
+    {
+        return _playerInputActions.Player.Sprint.ReadValue<float>() > 0;
+    }
+    
     public bool IsJumpPressed()
     {
         return _playerInputActions.Player.Jump.triggered;

@@ -4,13 +4,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float rotateSpeed = 7f; // скорость поворота
+    [SerializeField] private float sprintSpeed = 10f;
+    [SerializeField] private float rotateSpeed = 7f;
     [SerializeField] private float jumpHeight = 5f; 
     [SerializeField] private GameInput _gameInput;
     [SerializeField] private Animator animator;
 
     private bool isWalking;
     private bool isGrounded;
+    private bool isSprinting;
     private Rigidbody rb;
 
     private void Awake()
@@ -26,11 +28,16 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
+        
         Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
-
+        
+        float currentSpeed = GetCurrentSpeed();
+        
         transform.position += moveDir * moveSpeed * Time.deltaTime;
         
-        isWalking = moveDir.magnitude > 0.1f; 
+        transform.position += moveDir * currentSpeed * Time.deltaTime;
+
+        isWalking = moveDir.magnitude > 0.1f;
 
         if (animator != null)
         {
@@ -47,6 +54,12 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
+    }
+    
+    private float GetCurrentSpeed()
+    {
+        bool isSprinting = _gameInput.IsSprinting();
+        return isSprinting ? sprintSpeed : moveSpeed;
     }
 
     private void Jump()
@@ -68,13 +81,8 @@ public class Player : MonoBehaviour
             
             if (animator != null)
             {
-                animator.SetBool("jump", false); // Выключаем анимацию прыжка при приземлении
+                animator.SetBool("jump", false);
             }
         }
-    }
-
-    public bool IsWalking()
-    {
-        return isWalking;
     }
 }
