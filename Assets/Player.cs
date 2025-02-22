@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Vector2 inputVector = _gameInput.GetMovmentVectorNormalized();
-        Vector3 moveDir = new Vector3(-inputVector.y, 0f, inputVector.x);
+        Vector3 moveDir = new Vector3(inputVector.y, 0f, -inputVector.x);
 
         isSprinting = _gameInput.IsSprinting();
 
